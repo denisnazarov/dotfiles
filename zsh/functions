@@ -1,0 +1,39 @@
+#!/bin/bash
+# vi: sw=8:ts=8:noet
+
+# open local host with specific port, default to 3000
+olh() {
+	local port=${1:-3000}
+	open -a "Google Chrome Canary" http://localhost:$port;
+}
+
+# download any youtube or vimeo video to ~/Movies
+download-video() {
+	cd ~/Movies
+	youtube-dl -t "$@"
+}
+
+# play jay-z
+jayz() {
+	osascript <<-EOF
+		tell application "iTunes" to play track 1 of playlist "Jay-Z"
+	EOF
+}
+
+# clone repo and discard git info
+clone() {
+	local repo_name=${2:-`echo $1 | awk -F/ '{print $5}' | sed 's/.git//'`}
+
+	git clone --depth=1 "$1" "$repo_name"
+	rm -rf "$repo_name"/.git
+}
+
+# pull down repo for reading
+code-read() {
+	local pwd=`pwd`
+	local target=~/Dropbox/code/read
+
+	cd "$target"
+	clone "$@"
+	cd "$pwd"
+}
