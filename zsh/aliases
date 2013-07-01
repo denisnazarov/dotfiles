@@ -10,7 +10,7 @@ alias gitconfig='vim ~/.gitconfig'
 alias tu='top -o cpu'
 alias tm='top -o vsize'
 
-alias update-vim-plugins='vim +BundleInstall +qall'
+alias update-vim-plugins='vim +BundleUpdate +qall'
 
 # set wifi on/off
 alias wifi='networksetup -setairportpower en0 on'
@@ -20,7 +20,7 @@ alias grep='grep --color=auto'
 alias so='source ~/.zshrc'
 alias add-alias='vim ~/Dropbox/.dotfiles/zsh/aliases'
 
-# List paths in a readbale format
+# List paths in a readable format
 alias paths='echo $PATH | tr ":" "\n"'
 
 # Start a webserver in current direcory on port 8888
@@ -31,4 +31,8 @@ alias color=cdl
 # One of @janmoesen’s ProTip™s
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
   alias "$method"="lwp-request -m '$method'"
+done
+
+for filetype in html erb scss css js coffee rb py; do
+  alias -s "$filetype"=vim
 done

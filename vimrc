@@ -7,6 +7,7 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
+Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdcommenter'
@@ -26,17 +27,18 @@ Bundle 'vim-scripts/ZoomWin'
 Bundle 'gregsexton/MatchTag'
 Bundle 'Townk/vim-autoclose'
 Bundle 'kogakure/vim-sparkup'
-Bundle 'mileszs/ack.vim'
+Bundle 'ag.vim'
 Bundle 'jeetsukumaran/vim-buffergator'
 Bundle 'rgarver/Kwbd.vim'
 Bundle 'majutsushi/tagbar'
 Bundle 'juvenn/mustache.vim'
 Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'pangloss/vim-javascript'
+Bundle 'kchmck/vim-coffee-script'
 Bundle 'danro/rename.vim'
-Bundle 'xolox/vim-session'
 Bundle 'w0ng/vim-hybrid'
 Bundle 'airblade/vim-gitgutter'
+Bundle 'slim-template/vim-slim'
 
 so $HOME/.vim/statusline
 so $HOME/.vim/functions
@@ -78,11 +80,6 @@ set noswapfile
 set nobackup
 set nowb
 
-" relative line numbers in normal mode, normal in insert
-set rnu
-autocmd InsertEnter * setl nu
-autocmd InsertLeave * setl rnu
-
 " highlight all search matches
 set hlsearch
 
@@ -123,8 +120,17 @@ set foldmethod=indent
 " prevent folding by default
 set foldlevelstart=20
 
+
 autocmd BufNewFile,BufRead Gemfile set filetype=ruby
+autocmd BufNewFile,BufRead Guardfile set filetype=ruby
+autocmd BufNewFile,BufRead Rakefile set filetype=ruby
+autocmd BufNewFile,BufRead YML set filetype=ruby
+autocmd BufRead,BufNewFile *.ru set filetype-ruby
+
+autocmd BufRead,BufNewFile *.jshintrc setfiletype=javascript
+
 autocmd BufNewFile,BufRead *.zsh-theme set filetype=zsh
+autocmd BufRead,BufNewFile *.{slimbars} set ft=slim
 
 " auto-strip trailing whitespace on write
 autocmd BufWritePre * :%s/\s\+$//e
@@ -139,18 +145,11 @@ set sidescroll=1
 " mappings
 " ----------------------------------------------------
 
-" make w unesseassary in ctrl-w-hjkl
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
-
 " faster
 nmap ; :
 
 " edit file relative to current file
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-
 
 " lead with ,
 let mapleader = ","
@@ -168,14 +167,22 @@ else
 endif
 
 " replace current word
-map <leader>rr :1,$s/\(<c-r>=expand("<cword>")<cr>\)/
+map <leader>rr :%s/<c-r>=expand("<cword>")<cr>/<c-r>=expand("<cword>")<cr>/g
 
 " find current word
-map <leader>f :Ack <c-r>=expand("<cword>")<cr><cr>
+map <leader>f :Ag <c-r>=expand("<cword>")<cr><cr>
 
 " Bind :Q to :q
 command! Q q
 command! Qall qall
+
+" relative line numbers in normal mode, normal in insert
+set rnu
+autocmd InsertEnter * setl nu
+autocmd InsertLeave * setl rnu
+
+" for CSS
+set iskeyword+=-
 
 
 " plugin settings
@@ -199,3 +206,4 @@ let g:session_autoload = 'no'
 " Nerdtree
 map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+

@@ -1,6 +1,8 @@
 # path to oh-my-zsh configuration
 ZSH=$HOME/.oh-my-zsh
 
+export EDITOR=vim
+
 # set name of the theme to load
 ZSH_THEME="moudy"
 
@@ -14,24 +16,11 @@ plugins=(history-substring-search osx hub git heroku brew gem npm zsh-syntax-hig
 source $HOME/.oh-my-zsh/oh-my-zsh.sh
 source $HOME/.zsh/aliases
 source $HOME/.zsh/functions
-source $HOME/.work
+source $HOME/.aws
 source "`brew --prefix`/etc/grc.bashrc"
 
 # alias hub to git
 eval "$(hub alias -s)"
-
-# rbevn
-eval "$(rbenv init -)"
-export PATH="$HOME/.rbenv/bin:$PATH"
-
-# add node to path
-PATH=/usr/local/share/npm/bin:$PATH
-
-# add my path
-PATH=$HOME/bin:$PATH
-
-# look for homebrew versions first
-PATH=/usr/local/bin:$PATH
 
 # speed things up
 zstyle ':completion:*' accept-exact '*(N)'
@@ -48,13 +37,25 @@ export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.ec2/pk-*.pem | /usr/bin/head -1)"
 export EC2_CERT="$(/bin/ls "$HOME"/.ec2/cert-*.pem | /usr/bin/head -1)"
 export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
 
-# let ruby take upi more memory
-export RUBY_HEAP_MIN_SLOTS=1000000
-export RUBY_HEAP_SLOTS_INCREMENT=1000000
-export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1
-export RUBY_GC_MALLOC_LIMIT=1000000000
-export RUBY_HEAP_FREE_MIN=500000
+# add my path
+PATH=$HOME/bin:$PATH
+
+# look for homebrew versions first
+PATH=/usr/local/bin:$PATH
+
+# rbevn
+PATH=$HOME/.rbenv/bin:$PATH
+eval "$(rbenv init -)"
+
+# make paths unique
+PATH=`paths | awk ' !x[$0]++' | tr '\n' : | sed 's/:$//'`
+
+# fixes TMUX window rename bug
+# http://superuser.com/questions/306028/tmux-and-zsh-custom-prompt-bug-with-window-name
+DISABLE_AUTO_TITLE=true
 
 # don't correct me
 unsetopt correct_all
+
+[[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator ]]
 
