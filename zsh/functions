@@ -37,3 +37,7 @@ code-read() {
 	clone "$@"
 	cd "$pwd"
 }
+
+mp3-convert() {
+	ffmpeg -i "$@" -acodec libmp3lame -ac 2 -ab 128k -vn -y "$@".mp3
+}
