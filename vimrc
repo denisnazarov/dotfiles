@@ -133,7 +133,7 @@ autocmd BufNewFile,BufRead Rakefile set filetype=ruby
 autocmd BufNewFile,BufRead YML set filetype=ruby
 autocmd BufRead,BufNewFile *.ru set filetype-ruby
 
-autocmd BufRead,BufNewFile *.jshintrc setfiletype=javascript
+autocmd BufRead,BufNewFile .jshintrc set filetype=javascript
 
 autocmd BufNewFile,BufRead *.zsh-theme set filetype=zsh
 autocmd BufRead,BufNewFile *.{slimbars} set ft=slim
