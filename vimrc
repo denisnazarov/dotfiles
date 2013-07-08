@@ -39,17 +39,23 @@ Bundle 'danro/rename.vim'
 Bundle 'w0ng/vim-hybrid'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'slim-template/vim-slim'
+Bundle 'bling/vim-airline'
 
-so $HOME/.vim/statusline
 so $HOME/.vim/functions
 
 " setup
 " ----------------------------------------------------
 filetype plugin indent on
 syntax on
+set laststatus=2
 
+" colors
 let g:hybrid_use_Xresources = 1
 colorscheme hybrid
+
+set cursorline
+hi CursorLine ctermbg=233
+hi Visual ctermbg=235
 
 " Use UTF-8
 set encoding=utf-8
@@ -187,6 +193,12 @@ set iskeyword+=-
 
 " plugin settings
 " ----------------------------------------------------
+
+" airline
+let g:airline_theme='badwolf'
+let g:airline_powerline_fonts=1
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 
 " zoom zomm
 map <leader><leader> :ZoomWin<CR>
