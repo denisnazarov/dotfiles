@@ -1,5 +1,7 @@
 #!/bin/bash
 
+alias g='git'
+
 alias c='clear'
 alias ll='ls -lha'
 

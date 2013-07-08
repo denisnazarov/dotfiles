@@ -10,7 +10,7 @@ ZSH_THEME="moudy"
 fpath=(/usr/local/share/zsh-completions $fpath)
 
 # plugins
-plugins=(history-substring-search osx hub git heroku brew gem npm zsh-syntax-highlighting)
+plugins=(history-substring-search osx hub heroku brew gem npm zsh-syntax-highlighting)
 
 # source these
 source $HOME/.oh-my-zsh/oh-my-zsh.sh
