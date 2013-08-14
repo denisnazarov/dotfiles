@@ -3,11 +3,10 @@
 alias g='git'
 
 alias c='clear'
-alias ll='ls -lha'
+alias ll='ls -lhA'
 
 alias zshrc='vim ~/.zshrc'
 alias vimrc='vim ~/.vimrc'
-alias gitconfig='vim ~/.gitconfig'
 
 alias tu='top -o cpu'
 alias tm='top -o vsize'
@@ -18,15 +17,11 @@ alias update-vim-plugins='vim +BundleUpdate +qall'
 alias wifi='networksetup -setairportpower en0 on'
 alias wifioff='networksetup -setairportpower en0 off'
 
-alias grep='grep --color=auto'
 alias so='source ~/.zshrc'
-alias add-alias='vim ~/Dropbox/.dotfiles/zsh/aliases'
+alias add-alias='vim ~/.zsh/aliases'
 
 # List paths in a readable format
 alias paths='echo $PATH | tr ":" "\n"'
-
-# Start a webserver in current direcory on port 8888
-alias simple-server='python -m SimpleHTTPServer 8888'
 
 alias color=cdl
 
@@ -35,3 +30,5 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
   alias "$method"="lwp-request -m '$method'"
 done
 
+# alias hub to git
+if [ -x "$(which hub)" ]; then; eval "$(hub alias -s)"; fi

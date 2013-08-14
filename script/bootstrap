@@ -2,13 +2,12 @@
 
 # symlinks dotfiles
 
-DOTFILES_ROOT="`pwd`"
-
 set -e
 
-echo ''
+DOTFILES_ROOT=`pwd`/"${0%/*}"/..
+cd "$DOTFILES_ROOT"
 
-echo "$DOTFILES_ROOT"
+echo ''
 
 info () {
   printf "  [ \033[00;34m..\033[0m ] $1"
@@ -40,7 +39,7 @@ install_dotfiles () {
   backup_all=false
   skip_all=false
 
-  for source in `find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink`
+  for source in `find . -maxdepth 2 -name \*.symlink`
   do
     dest="$HOME/.`basename ${source} | sed 's/\.symlink//'`"
 
