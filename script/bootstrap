@@ -4,8 +4,7 @@
 
 set -e
 
-DOTFILES_ROOT=`pwd`/"${0%/*}"/..
-cd "$DOTFILES_ROOT"
+DOTFILES_ROOT="`pwd`"
 
 echo ''
 
@@ -39,7 +38,7 @@ install_dotfiles () {
   backup_all=false
   skip_all=false
 
-  for source in `find . -maxdepth 2 -name \*.symlink`
+  for source in `find $DOTFILES_ROOT -maxdepth 2 -name \*.symlink`
   do
     dest="$HOME/.`basename ${source} | sed 's/\.symlink//'`"
 

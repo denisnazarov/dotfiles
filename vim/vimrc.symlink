@@ -152,6 +152,7 @@ autocmd BufRead,BufNewFile Gruntfile set filetype=javascript
 autocmd BufRead,BufNewFile *.js.liquid set filetype=javascript
 autocmd BufNewFile,BufRead *.zsh-theme set filetype=zsh
 autocmd BufRead,BufNewFile *.{slimbars} set ft=slim
+autocmd BufRead,BufNewFile *.{ejs} set ft=html
 
 " auto-strip trailing whitespace on write
 autocmd BufWritePre * :%s/\s\+$//e
