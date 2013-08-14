@@ -1,0 +1,1 @@
+rsync -aE --delete ~/Code/ec2_deploy ~/Code/bk

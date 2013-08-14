@@ -1,0 +1,38 @@
+#!/bin/sh
+
+is_homebrew_installed () {
+  if test ! $(which brew); then return 0; else return 1; fi
+}
+
+homebrew_not_installed_message () {
+  echo "x You should probably install Homebrew first:"
+  echo "  https://github.com/mxcl/homebrew/wiki/installation"
+}
+
+brew_is_installed () {
+  local s=`brew info $@ | head -3 | tail -1`
+  if [ "$s" == "Not installed" ]; then return 1; else return 0; fi
+}
+
+brew_cask_is_installed () {
+  local s=`brew cask info $@ | head -3 | tail -1`
+  if [ "$s" == "Not installed" ]; then return 1; else return 0; fi
+}
+
+brew_install () {
+  if brew_is_installed $@; then
+    echo "'$@' already installed"
+  else
+    brew install $@
+  fi
+}
+
+brew_cask_install () {
+  if brew_cask_is_installed $@; then
+    echo "'$@' already installed"
+  else
+    brew cask install $@
+  fi
+}
+
+

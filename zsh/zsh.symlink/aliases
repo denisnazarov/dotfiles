@@ -35,6 +35,3 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
   alias "$method"="lwp-request -m '$method'"
 done
 
-for filetype in html erb scss css js coffee rb py; do
-  alias -s "$filetype"=vim
-done

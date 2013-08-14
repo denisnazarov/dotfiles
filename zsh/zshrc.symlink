@@ -1,0 +1,79 @@
+_source () {
+  [[ -s $@ ]] && source $@ ]]
+}
+
+_source $HOME/.zsh/antigen/antigen.zsh
+
+antigen use oh-my-zsh
+
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle git
+antigen bundle github
+antigen bundle heroku
+antigen bundle brew
+antigen bundle gem
+antigen bundle osx
+antigen bundle npm
+antigen bundle zsh-users/zsh-history-substring-search
+
+antigen apply
+
+export EDITOR=vim
+
+# more completions!
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+# plugins
+#plugins=(history-substring-search osx hub heroku brew gem npm zsh-syntax-highlighting)
+
+# source these
+_source $HOME/.zsh/aliases
+_source $HOME/.zsh/functions
+_source $HOME/.zsh/moudy.zsh-theme
+_source $HOME/.aws
+_source "`brew --prefix`/etc/grc.bashrc"
+
+# alias hub to git
+if [ -x "$(which hub)" ]; then; eval "$(hub alias -s)"; fi
+
+# speed things up
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh_cache
+
+__git_files () {
+  _wanted files expl 'local files' _files
+}
+
+# setup Amazon EC2 command-line tools
+if [ -x "$(which ec2-api-tools)" ]; then;
+  export JAVA_HOME="$(/usr/libexec/java_home)"
+  export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
+fi
+
+if [[ -s "$HOME/.ec2" ]]; then;
+  export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.ec2/pk-*.pem | /usr/bin/head -1)"
+  export EC2_CERT="$(/bin/ls "$HOME"/.ec2/cert-*.pem | /usr/bin/head -1)"
+fi
+
+# add my path
+PATH=$HOME/.bin:$PATH
+
+# look for homebrew versions first
+PATH=/usr/local/bin:$PATH
+
+# rbevn
+PATH=$HOME/.rbenv/bin:$PATH
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# make paths unique
+PATH=`paths | awk ' !x[$0]++' | tr '\n' : | sed 's/:$//'`
+
+# fixes TMUX window rename bug
+# http://superuser.com/questions/306028/tmux-and-zsh-custom-prompt-bug-with-window-name
+DISABLE_AUTO_TITLE=true
+
+# don't correct me
+unsetopt correct_all
+
+_source $HOME/.tmuxinator/scripts/tmuxinator

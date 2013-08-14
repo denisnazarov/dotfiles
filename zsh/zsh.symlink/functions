@@ -41,3 +41,16 @@ code-read() {
 mp3-convert() {
 	ffmpeg -i "$@" -acodec libmp3lame -ac 2 -ab 128k -vn -y "$@".mp3
 }
+
+add-dropbox-remote() {
+	local target=~/Dropbox/.gitrepos/${PWD##*/}.git
+	if [ -d "$target" ]; then
+		  # Control will enter here if $DIRECTORY exists.
+		  echo "$target" already exists
+	  else
+		  git clone --bare . "$target"
+		  git remote add dropbox "$target"
+		  echo "added dropbox remote"
+		  git remote -v
+	fi
+}
