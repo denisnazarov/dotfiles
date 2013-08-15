@@ -12,6 +12,7 @@ brew_install ec2-api-tools
 brew_install the_silver_searcher
 brew_install graphicsmagick
 brew_install imagemagick
+brew_install ctags-exuberant
 
 brew cleanup
 
