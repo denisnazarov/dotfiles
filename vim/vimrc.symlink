@@ -4,6 +4,7 @@ filetype off
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+"set rtp+=/Users/moudy/.powerline/powerline/bindings/vim
 
 if exists(":Bundle")
 
@@ -49,6 +50,7 @@ if exists(":Bundle")
   " colors
   Bundle 'chriskempson/vim-tomorrow-theme'
   Bundle 'w0ng/vim-hybrid'
+  Bundle 'guns/xterm-color-table.vim'
 endif
 
 so $HOME/.vim/functions
@@ -140,6 +142,9 @@ set foldmethod=indent
 
 " prevent folding by default
 set foldlevelstart=20
+
+" Hide the default mode text (e.g. -- INSERT -- below the statusline) "
+set noshowmode
 
 " filetypes
 autocmd BufNewFile,BufRead Gemfile set filetype=ruby

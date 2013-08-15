@@ -1,1 +1,8 @@
-rsync -aE --delete ~/Code/ec2_deploy ~/Code/bk
+#!/bin/sh
+
+  #rsync -azv --delete "$@"
+_backup () {
+  echo "$HOME"
+}
+
+_backup "$@"

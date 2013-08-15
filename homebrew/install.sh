@@ -24,6 +24,8 @@ brew_install ec2-api-tools
 brew_install zsh-completions
 brew_install the_silver_searcher
 brew_install reattach-to-user-namespace
+brew_install graphicsmagick
+brew_install imagemagick
 
 brew cleanup
 

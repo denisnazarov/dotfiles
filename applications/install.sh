@@ -17,4 +17,5 @@ brew_cask_install iterm2
 brew_cask_install vlc
 brew_cask_install divvy
 brew_cask_install evernote
+brew_cask_install firefox
 
