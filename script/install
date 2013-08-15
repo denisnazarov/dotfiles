@@ -4,9 +4,7 @@
 
 set -e
 
-DOTFILES_ROOT=`pwd`/"${0%/*}"/..
-
-cd "$DOTFILES_ROOT"
+cd $(dirname $0)/..
 
 # find the installers and run them iteratively
 find . -name install.sh -d 2 | while read installer ; do sh -c "${installer}"; done

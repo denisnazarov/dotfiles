@@ -1,3 +1,10 @@
+#!/bin/sh
+
+source "${0%/*}/../script/utils"
+
 if [ "$SHELL" != '/bin/zsh' ]; then chsh -s /bin/zsh; fi
 
-git submodule foreach git pull origin master
+ensure_homebrew_install
+
+brew_install zsh
+brew_install zsh-completions

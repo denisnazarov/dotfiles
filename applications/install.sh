@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source "${0%/*}/../utils"
+source "${0%/*}/../script/utils"
 
 if [ ! is_homebrew_installed ]; then homebrew_not_installed_message && exit; fi
 
