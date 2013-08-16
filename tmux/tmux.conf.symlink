@@ -28,6 +28,9 @@ bind r source-file ~/.tmux.conf \; display "Reloaded"
 bind | split-window -h
 bind - split-window -v
 
+# enter command prompt with same suffix as my vim setting
+bind-key \; command-prompt
+
 # Smart pane switching with awareness of vim splits
 # https://gist.github.com/mislav/5189704
 bind -n C-k run-shell 'tmux-vim-select-pane -U'
