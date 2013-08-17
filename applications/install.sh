@@ -11,6 +11,7 @@ fi
 
 # Apps not installed through App Store
 brew_cask_install dropbox
+brew_cask_install google-drive
 brew_cask_install google-chrome
 brew_cask_install google-chrome-canary
 brew_cask_install iterm2
@@ -18,4 +19,5 @@ brew_cask_install vlc
 brew_cask_install firefox
 brew_cask_install virtualbox
 brew_cask_install vagrant
+brew_cask_install flux
 

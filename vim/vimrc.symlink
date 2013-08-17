@@ -4,7 +4,6 @@ filetype off
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-"set rtp+=/Users/moudy/.powerline/powerline/bindings/vim
 
 if exists(":Bundle")
 
@@ -27,7 +26,7 @@ if exists(":Bundle")
   Bundle 'vim-scripts/ZoomWin'
   Bundle 'gregsexton/MatchTag'
   Bundle 'Townk/vim-autoclose'
-  Bundle 'kogakure/vim-sparkup'
+  Bundle 'tristen/vim-sparkup'
   Bundle 'ag.vim'
   Bundle 'rgarver/Kwbd.vim'
   Bundle 'majutsushi/tagbar'
