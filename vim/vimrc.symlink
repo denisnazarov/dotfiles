@@ -36,6 +36,7 @@ if exists(":Bundle")
   Bundle 'bling/vim-airline'
   Bundle 'sunaku/vim-ruby-minitest'
   Bundle 'majutsushi/tagbar'
+  Bundle 'bling/vim-bufferline'
 
   " filetypes
   Bundle 'juvenn/mustache.vim'
@@ -148,15 +149,22 @@ set noshowmode
 " filetypes
 autocmd BufNewFile,BufRead Gemfile set filetype=ruby
 autocmd BufNewFile,BufRead Guardfile set filetype=ruby
+autocmd BufNewFile,BufRead VagranFile set filetype=ruby
 autocmd BufNewFile,BufRead Rakefile set filetype=ruby
 autocmd BufNewFile,BufRead YML set filetype=ruby
 autocmd BufRead,BufNewFile *.ru set filetype-ruby
-autocmd BufRead,BufNewFile .jshintrc set filetype=javascript
+
+autocmd BufRead,BufNewFile *jshintrc* set filetype=javascript
 autocmd BufRead,BufNewFile Gruntfile set filetype=javascript
 autocmd BufRead,BufNewFile *.js.liquid set filetype=javascript
+
+autocmd BufRead,BufNewFile *.{slimbars} set filetype=slim
+autocmd BufRead,BufNewFile *.{ejs} set filetype=html
+
 autocmd BufNewFile,BufRead *.zsh-theme set filetype=zsh
-autocmd BufRead,BufNewFile *.{slimbars} set ft=slim
-autocmd BufRead,BufNewFile *.{ejs} set ft=html
+
+autocmd BufRead,BufNewFile *gitconfig* set filetype=config
+autocmd BufRead,BufNewFile *gitignore* set filetype=config
 
 " auto-strip trailing whitespace on write
 autocmd BufWritePre * :%s/\s\+$//e
@@ -217,6 +225,10 @@ let g:airline_theme='badwolf'
 let g:airline_powerline_fonts=1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
+
+let g:bufferline_show_bufnr = 0
+let g:bufferline_fname_mod = 't'
+let g:bufferline_echo = 0
 
 " zoom zomm
 map <leader><leader> :ZoomWin<CR>
