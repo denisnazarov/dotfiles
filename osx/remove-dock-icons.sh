@@ -1,3 +1,7 @@
+#!/bin/sh
+
+#removes all icons from the dock so it only shows open apps
+
 osascript <<-EOF
 tell application "System Events"
   set dockPlistFile to property list file "~/Library/Preferences/com.apple.dock.plist"
