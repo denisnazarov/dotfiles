@@ -19,5 +19,7 @@ brew_cask_install vlc
 brew_cask_install firefox
 brew_cask_install virtualbox
 brew_cask_install vagrant
-brew_cask_install flux
+brew_cask_install f-lux
+brew_cask_install omni-disk-sweeper
+brew_cask_install spotify
 

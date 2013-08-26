@@ -10,15 +10,12 @@ __rbenv_ps1 ()
 
 function stoppedjobs() {
   local num=`jobs -s | wc -l | sed -e "s/ //g"`
-  if [ "$num" -eq "0" ]; then;
-  elif [ "$num" -eq "1" ]; then;
-    echo "$num bg job"
-  else
-    echo "$num bg jobs"
+  if [[ ! "$num" -eq "0" ]]; then;
+    echo " ★ $num"
   fi
 }
 
-RPROMPT='$(__rbenv_ps1) %{$fg[cyan]%}$(stoppedjobs)%{$reset_color%}'
+RPROMPT='$(__rbenv_ps1)%{$fg[cyan]%}$(stoppedjobs)%{$reset_color%}'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$reset_color%}:%{$fg_bold[blue]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"

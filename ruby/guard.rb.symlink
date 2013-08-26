@@ -1,0 +1,40 @@
+# vi: ft=ruby
+
+module Notifier::Tmux
+  extend self
+
+  def display_message(type, title, message, options = { })
+    message_format = options["#{ type }_message_format".to_sym] || options[:default_message_format] || DEFAULTS[:default_message_format]
+    message_color = tmux_color type, options
+    display_time = options[:timeout] || DEFAULTS[:timeout]
+    separator = options[:line_separator] || DEFAULTS[:line_separator]
+
+    formatted_message = message.split("\n").join(separator)
+    display_message = message_format % [title, formatted_message]
+
+    run_client "set display-time #{display_time * 1000}"
+    run_client "set message-bg colour235"
+    run_client "set message-fg #{message_color}"
+    run_client "display-message ' #{display_message}'"
+  end
+
+  def tmux_color(type, options = {})
+    case type
+    when 'success'
+      options[:success] || 'colour40'
+    when 'failed'
+      options[:failed]  || 'colour160'
+    when 'pending'
+      options[:pending] || 'colour148'
+    else
+      options[:default] || 'colour43'
+    end
+  end
+
+  def run_client(args)
+    system("#{ DEFAULTS[:client] } #{args}")
+  end
+
+end
+
+notification :tmux, display_message: true, color_location: 'status-right-bg'
