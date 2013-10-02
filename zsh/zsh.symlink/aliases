@@ -1,10 +1,11 @@
 #!/bin/bash
 
 alias g='git'
-
 alias m='tmuxinator start'
+alias s='pmset sleepnow'
+alias k='clear'
+alias c='pygmentize -O style=monokai -f console256 -g'
 
-alias c='clear'
 alias ll='ls -lhA'
 
 alias zshrc='vim ~/.zshrc'
@@ -30,5 +31,11 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
   alias "$method"="lwp-request -m '$method'"
 done
 
+# MAC manipulators
+alias random-mac='sudo ifconfig en0 ether `openssl rand -hex 6 | sed "s/\(..\)/\1:/g; s/.$//"`'
+alias restore-mac='sudo ifconfig en0 ether $MAC_ADDRESS'
+
+alias speed-test='wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip'
+
 # alias hub to git
-if [ -x "$(which hub)" ]; then; eval "$(hub alias -s)"; fi
+if [ -x "$(which hub)" ]; then eval "$(hub alias -s)"; fi

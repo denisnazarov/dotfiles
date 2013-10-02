@@ -1,26 +1,26 @@
 " vi: ft=vim
 
 " same as :only but removes buffers
-command! Only :silent call Only() 
+command! Only :silent call Only()
 
-function! Buflist() 
-  redir => bufnames 
-  silent ls 
-  redir END 
-  let list = [] 
-  for i in split(bufnames, "\n") 
-    let buf = split(i, '"' ) 
-    call add(list, buf[-2]) 
-    |   endfor 
-  return list 
-endfunction 
+function! Buflist()
+  redir => bufnames
+  silent ls
+  redir END
+  let list = []
+  for i in split(bufnames, "\n")
+    let buf = split(i, '"' )
+    call add(list, buf[-2])
+    |   endfor
+  return list
+endfunction
 
 function! Only()
-  let list = filter(Buflist(), 'v:val != bufname("%")') 
-  for buffer in list 
+  let list = filter(Buflist(), 'v:val != bufname("%")')
+  for buffer in list
     exec "bdelete ".buffer
-  endfor 
-endfunction 
+  endfor
+endfunction
 """
 
 " opens all files in quick fix window
@@ -41,8 +41,38 @@ function! QuickFixOpenAll()
 endfunction
 """
 
-command! ReplaceTabs call ReplaceTabs() 
+command! ReplaceTabs call ReplaceTabs()
 
-function! ReplaceTabs() 
+function! ReplaceTabs()
   %s/\t/  /g
 endfunction
+
+" quickfixopenall.vim
+"Author:
+"   Tim Dahlin
+"
+"Description:
+"   Opens all the files in the quickfix list for editing.
+"
+"Usage:
+"   1. Perform a vimgrep search
+"       :vimgrep /def/ *.rb
+"   2. Issue QuickFixOpenAll command
+"       :QuickFixOpenAll
+
+function!   QuickFixOpenAll()
+    if empty(getqflist())
+        return
+    endif
+    let s:prev_val = ""
+    for d in getqflist()
+        let s:curr_val = bufname(d.bufnr)
+        if (s:curr_val != s:prev_val)
+            exec "edit " . s:curr_val
+        endif
+        let s:prev_val = s:curr_val
+    endfor
+endfunction
+
+command! QuickFixOpenAll call QuickFixOpenAll()
+

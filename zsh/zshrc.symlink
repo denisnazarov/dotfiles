@@ -1,15 +1,18 @@
 ZSH=$HOME/.oh-my-zsh
 export EDITOR=vim
 
-plugins=(history-substring-search osx hub heroku brew gem npm zsh-syntax-highlighting)
+ZSH_THEME=''
+
+plugins=(history-substring-search zsh-syntax-highlighting)
 
 # more completions!
 fpath=(/usr/local/share/zsh-completions $fpath)
 
 source $ZSH/oh-my-zsh.sh
+source $HOME/.local.zsh
 source $HOME/.zsh/aliases
 source $HOME/.zsh/functions
-source $HOME/.zsh/moudy.zsh-theme
+source $HOME/.zsh/prompt
 
 # speed things up
 zstyle ':completion:*' accept-exact '*(N)'

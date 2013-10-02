@@ -4,8 +4,10 @@ PROMPT='%{$fg[cyan]%}%c$(git_prompt_info)%{$fg_bold[blue]%} %{$reset_color%}'
 # # rbenv version | sed -e 's/ .*//'
 __rbenv_ps1 ()
 {
-  rbenv_ruby_version=`rbenv version | sed -e 's/ .*//'`
-  printf "ruby:$rbenv_ruby_version"
+  if [ -f "$(pwd)/Gemfile" ]; then;
+    local rbenv_ruby_version=`rbenv version | sed -e 's/ .*//'`
+    printf "ruby:$rbenv_ruby_version"
+  fi
 }
 
 function stoppedjobs() {

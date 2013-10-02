@@ -38,7 +38,14 @@ if exists(":Bundle")
   Bundle 'majutsushi/tagbar'
   Bundle 'godlygeek/tabular'
   Bundle 'digitaltoad/vim-jade'
-  Bundle 'chrisbra/NrrwRgn'
+  Bundle 'vim-scripts/YankRing.vim'
+  Bundle 'triglav/vim-visual-increment'
+"  Bundle 'sjl/vitality.vim'
+  Bundle 'jeetsukumaran/vim-buffergator'
+
+  " needed for rizzatti/dash.vim
+  Bundle 'rizzatti/funcoo.vim'
+  Bundle 'rizzatti/dash.vim'
 
   " filetypes
   Bundle 'juvenn/mustache.vim'
@@ -54,6 +61,7 @@ if exists(":Bundle")
   Bundle 'chriskempson/vim-tomorrow-theme'
   Bundle 'w0ng/vim-hybrid'
   Bundle 'guns/xterm-color-table.vim'
+  Bundle 'vim-scripts/jellybeans.vim'
 endif
 
 so $HOME/.vim/functions
@@ -68,15 +76,24 @@ syntax on
 set laststatus=2
 
 " colors
-try
-  let g:hybrid_use_Xresources = 1
-  colorscheme hybrid
-  set cursorline
-  hi CursorLine ctermbg=233
-  hi Visual ctermbg=235
-catch /^Vim\%((\a\+)\)\=:E185/
-  set background=dark
-endtry
+colorscheme jellybeans
+hi Normal ctermbg=234
+set cursorline
+hi CursorLine ctermbg=233
+
+hi TabLine      ctermfg=244 ctermbg=234 cterm=NONE
+hi TabLineFill  ctermfg=123  ctermbg=234 cterm=NONE
+hi TabLineSel   ctermfg=123  ctermbg=234 cterm=NONE
+
+hi CursorLineNr term=bold ctermfg=250 ctermbg=234
+hi NonText ctermfg=234
+hi LineNr ctermbg=234
+hi NonText ctermbg=234
+hi SignColumn ctermbg=234
+hi Directory ctermfg=27
+hi VertSplit ctermbg=235
+hi VertSplit ctermfg=235
+set numberwidth=1
 
 " Use UTF-8
 set encoding=utf-8
@@ -109,6 +126,7 @@ set nowb
 
 " highlight all search matches
 set hlsearch
+hi Search cterm=NONE ctermfg=0 ctermbg=154
 
 let g:netrw_dirhistmax=0
 
@@ -146,14 +164,18 @@ set foldmethod=indent
 " prevent folding by default
 set foldlevelstart=20
 
-" Hide the default mode text (e.g. -- INSERT -- below the statusline) "
+" hide the default mode text (e.g. -- INSERT -- below the statusline) "
 set noshowmode
+
+" autosave thanks to https://github.com/sjl/vitality.vim
+autocmd FocusLost * silent! wall
 
 " filetypes
 autocmd BufNewFile,BufRead Gemfile set filetype=ruby
 autocmd BufNewFile,BufRead Guardfile set filetype=ruby
 autocmd BufNewFile,BufRead VagranFile set filetype=ruby
 autocmd BufNewFile,BufRead Rakefile set filetype=ruby
+autocmd BufNewFile,BufRead Podfile set filetype=ruby
 autocmd BufNewFile,BufRead YML set filetype=ruby
 autocmd BufRead,BufNewFile *.ru set filetype-ruby
 
@@ -179,7 +201,13 @@ set scrolloff=8
 set sidescrolloff=15
 set sidescroll=1
 
+" Prevent Vim from clobbering the scrollback buffer. See
+" http://www.shallowsky.com/linux/noaltscreen.html
+set t_ti= t_te=
+
+
 " mappings
+
 " ctrl -space to go back to previous buffer
 map <C-@> :b#<CR>
 
@@ -187,7 +215,8 @@ map <C-@> :b#<CR>
 nmap ; :
 
 " edit file relative to current file
-map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>e :edit %%
 
 " lead with ,
 let mapleader = ","
@@ -231,9 +260,23 @@ let g:airline_right_sep=''
 let g:airline_inactive_collapse=0
 let g:airline#extensions#hunks#enabled = 0
 
-let g:bufferline_show_bufnr = 0
-let g:bufferline_fname_mod = 't'
-let g:bufferline_echo = 0
+let g:airline_section_a = ''
+let g:airline_section_y = '%3l ↧ %3c ↦'
+let g:airline_section_z = ''
+
+let g:airline_theme_patch_func = 'AirlineThemePatch'
+function! AirlineThemePatch(palette)
+  if g:airline_theme == 'badwolf'
+    for colors in values(a:palette.normal)
+      let colors[1] = 235
+      let colors[3] = 235
+    endfor
+    for colors in values(a:palette.insert)
+      let colors[1] = 235
+      let colors[3] = 235
+    endfor
+  endif
+endfunction
 
 " zoom zomm
 map <leader><leader> :ZoomWin<CR>
@@ -251,6 +294,16 @@ let g:ctrlp_custom_ignore = {
 map <leader>n :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-let NERDTreeSortOrder = ['\.js', '*']
 let NERDTreeShowLineNumbers = 1
 let NERDTreeMinimalUI = 1
+
+" yankring
+let g:yankring_min_element_length = 2
+let g:yankring_max_history = 1000
+let g:yankring_window_use_bottom = 0
+let g:yankring_history_file = '.yankring_history'
+let g:yankring_replace_n_pkey = ''
+nmap yr :YRShow<CR>
+
+map <leader>b :BuffergatorToggle<CR>
+
