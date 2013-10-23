@@ -21,4 +21,5 @@ brew_cask_install f-lux
 brew_cask_install omni-disk-sweeper
 brew_cask_install spotify
 brew_cask_install arq
+brew_cask_install anvil
 

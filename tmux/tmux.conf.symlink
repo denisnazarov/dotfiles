@@ -57,7 +57,7 @@ bind p paste-buffer
 setw -g monitor-activity on
 set -g visual-activity on
 
-# pane colors
+# pane colors (dark)
 set -g pane-border-fg colour233
 set -g pane-border-bg colour234
 set -g pane-active-border-bg colour234
@@ -86,27 +86,37 @@ set -sg repeat-time 200
 set -g history-limit 100000
 
 set-option -g status-position top
+
+# dark theme
 set -g status-bg colour235
 
+# dark theme
 set -g message-bg colour235
 set -g message-fg colour123
 
 set -g status-left " ❖ #S "
+set -g status-left-length 200
+
+# dark theme
 set -g status-left-bg colour235
 set -g status-left-fg colour229
-set -g status-left-length 100
 
 # unselected window
 setw -g window-status-format "#W "
+
+# dark theme
 setw -g window-status-bg colour235
 setw -g window-status-fg colour244
 
 # activity window
+# dark theme
 setw -g window-status-activity-fg colour235
 setw -g window-status-activity-bg colour244
 
 # current window
 setw -g window-status-current-format "#W#F "
+
+# dark theme
 setw -g window-status-current-bg colour235
 setw -g window-status-current-fg colour123
 
