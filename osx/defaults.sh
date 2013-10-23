@@ -4,9 +4,6 @@ sudo -v
 # Menu bar: disable transparency
 defaults write NSGlobalDomain AppleEnableMenuBarTransparency -bool false
 
-# Menu bar: hide the useless Time Machine and Volume icons
-defaults write com.apple.systemuiserver menuExtras -array "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" "/System/Library/CoreServices/Menu Extras/AirPort.menu" "/System/Library/CoreServices/Menu Extras/Battery.menu" "/System/Library/CoreServices/Menu Extras/Clock.menu"
-
 # Disable opening and closing window animations
 defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 
@@ -66,11 +63,6 @@ defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
 # Disable the warning when changing a file extension
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
-
-# Automatically open a new Finder window when a volume is mounted
-defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
-defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
-defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
 
 # Don’t automatically rearrange Spaces based on most recent use
 defaults write com.apple.dock mru-spaces -bool false
