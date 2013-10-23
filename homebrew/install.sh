@@ -17,6 +17,10 @@ brew_install ctags-exuberant
 brew_install youtube-dl
 brew_install wget
 brew_install ffmpeg
+brew_install vim
+brew_install tmux
+brew_insatll rbenv
+brew_insatll ruby-build
 
 brew cleanup
 
