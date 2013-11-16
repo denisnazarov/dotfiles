@@ -19,8 +19,8 @@ brew_install wget
 brew_install ffmpeg
 brew_install vim
 brew_install tmux
-brew_insatll rbenv
-brew_insatll ruby-build
+brew_install rbenv
+brew_install ruby-build
 
 brew cleanup
 

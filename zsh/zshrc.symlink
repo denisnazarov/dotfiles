@@ -3,6 +3,9 @@ export EDITOR=vim
 
 ZSH_THEME=''
 
+# installing zsh-syntax-highlighting
+# cd ~/.oh-my-zsh/custom/plugins
+# git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
 plugins=(history-substring-search zsh-syntax-highlighting)
 
 # more completions!
@@ -35,8 +38,6 @@ if [[ -s "$HOME/.ec2" ]]; then;
 fi
 
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
-PATH=/usr/local/share/python:$PATH
 
 # add my path
 PATH=$HOME/.bin:$PATH

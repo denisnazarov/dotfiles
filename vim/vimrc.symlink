@@ -21,24 +21,19 @@ if exists(":Bundle")
   Bundle 'mattn/gist-vim'
   Bundle 'mattn/webapi-vim'
   Bundle 'kien/ctrlp.vim'
-  Bundle 'Valloric/YouCompleteMe'
+  "Bundle 'Valloric/YouCompleteMe'
   Bundle 'regedarek/ZoomWin'
   Bundle 'gregsexton/MatchTag'
-  Bundle 'Townk/vim-autoclose'
   Bundle 'tristen/vim-sparkup'
   Bundle 'ag.vim'
   Bundle 'rgarver/Kwbd.vim'
-  Bundle 'majutsushi/tagbar'
   Bundle 'danro/rename.vim'
   Bundle 'w0ng/vim-hybrid'
   Bundle 'airblade/vim-gitgutter'
   Bundle 'bling/vim-airline'
-  Bundle 'sunaku/vim-ruby-minitest'
   Bundle 'majutsushi/tagbar'
   Bundle 'godlygeek/tabular'
-  Bundle 'digitaltoad/vim-jade'
   Bundle 'vim-scripts/YankRing.vim'
-  Bundle 'triglav/vim-visual-increment'
 "  Bundle 'sjl/vitality.vim'
   Bundle 'jeetsukumaran/vim-buffergator'
 
@@ -47,6 +42,7 @@ if exists(":Bundle")
   Bundle 'rizzatti/dash.vim'
 
   " filetypes
+  Bundle 'digitaltoad/vim-jade'
   Bundle 'juvenn/mustache.vim'
   Bundle 'slim-template/vim-slim'
   Bundle 'cakebaker/scss-syntax.vim'
@@ -61,6 +57,7 @@ if exists(":Bundle")
   Bundle 'w0ng/vim-hybrid'
   Bundle 'guns/xterm-color-table.vim'
   Bundle 'vim-scripts/jellybeans.vim'
+  Bundle 'tpope/vim-markdown'
 endif
 
 so $HOME/.vim/functions
@@ -194,7 +191,15 @@ autocmd BufRead,BufNewFile *gitconfig* set filetype=config
 autocmd BufRead,BufNewFile *gitignore* set filetype=config
 
 " auto-strip trailing whitespace on write
-autocmd BufWritePre * :%s/\s\+$//e
+fun! StripTrailingWhitespace()
+    " Don't strip on these filetypes
+    if &ft =~ 'markdown\|perl'
+        return
+    endif
+    %s/\s\+$//e
+endfun
+
+autocmd BufWritePre * call StripTrailingWhitespace()
 
 autocmd VimResized * wincmd =
 

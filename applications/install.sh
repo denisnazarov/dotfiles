@@ -18,7 +18,6 @@ brew_cask_install iterm2
 brew_cask_install vlc
 brew_cask_install firefox
 brew_cask_install f-lux
-brew_cask_install omni-disk-sweeper
 brew_cask_install spotify
 brew_cask_install arq
 brew_cask_install anvil

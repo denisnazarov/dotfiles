@@ -14,7 +14,7 @@
   whitespace = trailing-space
   excludesfile = /Users/moudy/.gitignore
 [push]
-  default = current
+	default = current
 [color]
   ui = true
 [github]
