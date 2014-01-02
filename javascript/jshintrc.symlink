@@ -1,11 +1,9 @@
 {
-  "strict": true
-, "camelcase": true
+  "camelcase": true
 , "eqeqeq": true
 , "indent": 2
 , "undef": true
 , "unused": true
-, "maxlen": 80
 , "trailing": true
 , "curly": true
 }

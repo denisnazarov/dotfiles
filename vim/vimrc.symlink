@@ -21,7 +21,7 @@ if exists(":Bundle")
   Bundle 'mattn/gist-vim'
   Bundle 'mattn/webapi-vim'
   Bundle 'kien/ctrlp.vim'
-  "Bundle 'Valloric/YouCompleteMe'
+  Bundle 'Valloric/YouCompleteMe'
   Bundle 'regedarek/ZoomWin'
   Bundle 'gregsexton/MatchTag'
   Bundle 'tristen/vim-sparkup'
@@ -36,6 +36,7 @@ if exists(":Bundle")
   Bundle 'vim-scripts/YankRing.vim'
 "  Bundle 'sjl/vitality.vim'
   Bundle 'jeetsukumaran/vim-buffergator'
+  Bundle 'junegunn/goyo.vim'
 
   " needed for rizzatti/dash.vim
   Bundle 'rizzatti/funcoo.vim'

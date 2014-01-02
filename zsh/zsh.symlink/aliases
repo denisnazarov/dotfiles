@@ -23,6 +23,8 @@ alias wifioff='networksetup -setairportpower en0 off'
 alias so='source ~/.zshrc'
 alias add-alias='vim ~/.zsh/aliases'
 
+alias sup='supervisor app.js'
+
 # List paths in a readable format
 alias paths='echo $PATH | tr ":" "\n"'
 
