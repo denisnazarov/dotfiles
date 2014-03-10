@@ -7,6 +7,18 @@ olh() {
 	open -a "Google Chrome Canary" http://localhost:$port;
 }
 
+doc() {
+	open dash://"$@"
+}
+
+reload-canary() {
+	osascript <<-EOF >/dev/null
+	tell application "Google Chrome Canary"
+		reload active tab of window 1
+	end tell
+	EOF
+}
+
 # download any youtube or vimeo video to ~/Movies
 download-video() {
 	cd ~/Movies
