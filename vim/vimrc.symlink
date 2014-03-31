@@ -15,7 +15,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'mattn/gist-vim'
   Plug 'mattn/webapi-vim'
   Plug 'kien/ctrlp.vim'
-  Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
   Plug 'regedarek/ZoomWin'
   Plug 'gregsexton/MatchTag'
   Plug 'tristen/vim-sparkup'
@@ -28,9 +28,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'majutsushi/tagbar'
   Plug 'godlygeek/tabular'
   Plug 'vim-scripts/YankRing.vim'
-"  Plug 'sjl/vitality.vim'
+" Plug 'sjl/vitality.vim'
   Plug 'jeetsukumaran/vim-buffergator'
   Plug 'junegunn/goyo.vim'
+  Plug 'geekjuice/vim-mocha'
 
   " Open the current Markdown buffer in Marked.app
   Plug 'itspriddle/vim-marked'
@@ -309,3 +310,6 @@ let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 let g:ycm_use_ultisnips_completer = 1
+
+let g:buffergator_suppress_keymaps = 1
+map <Leader>t :call SaveAndRunNearestSpec()<CR>

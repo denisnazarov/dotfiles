@@ -2,6 +2,7 @@
 
 " same as :only but removes buffers
 command! Only :silent call Only()
+command! W :call system('reload-canary')
 
 function! Buflist()
   redir => bufnames
@@ -42,37 +43,20 @@ endfunction
 """
 
 command! ReplaceTabs call ReplaceTabs()
-
 function! ReplaceTabs()
   %s/\t/  /g
 endfunction
 
-" quickfixopenall.vim
-"Author:
-"   Tim Dahlin
-"
-"Description:
-"   Opens all the files in the quickfix list for editing.
-"
-"Usage:
-"   1. Perform a vimgrep search
-"       :vimgrep /def/ *.rb
-"   2. Issue QuickFixOpenAll command
-"       :QuickFixOpenAll
-
-function!   QuickFixOpenAll()
-    if empty(getqflist())
-        return
-    endif
-    let s:prev_val = ""
-    for d in getqflist()
-        let s:curr_val = bufname(d.bufnr)
-        if (s:curr_val != s:prev_val)
-            exec "edit " . s:curr_val
-        endif
-        let s:prev_val = s:curr_val
-    endfor
+command! DeleteFile call DeleteFile()
+function! DeleteFile()
+  exec delete(expand('%')) | bdelete!
 endfunction
 
-command! QuickFixOpenAll call QuickFixOpenAll()
+command! RunCurrentSpecFile call RunCurrentSpecFile()
+command! RunNearestSpec call RunNearestSpec()
+command! RunLastSpec call RunLastSpec()
+command! RunAllSpecs call RunAllSpecs()
 
+function! SaveAndRunNearestSpec()
+  silent w | call RunNearestSpec()
+endfunction
