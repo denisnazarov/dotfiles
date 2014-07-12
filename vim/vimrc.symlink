@@ -15,7 +15,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'mattn/gist-vim'
   Plug 'mattn/webapi-vim'
   Plug 'kien/ctrlp.vim'
-" Plug 'Valloric/YouCompleteMe'
+  Plug 'Valloric/YouCompleteMe'
   Plug 'regedarek/ZoomWin'
   Plug 'gregsexton/MatchTag'
   Plug 'tristen/vim-sparkup'
@@ -36,12 +36,12 @@ call plug#begin('~/.vim/plugged')
   " Open the current Markdown buffer in Marked.app
   Plug 'itspriddle/vim-marked'
   Plug 'tomtom/tlib_vim'
-  Plug 'MarcWeber/ultisnips'
-  Plug 'honza/vim-snippets'
 
   " rizzatti/dash.vim dependency
   Plug 'rizzatti/funcoo.vim'
   Plug 'rizzatti/dash.vim'
+
+  Plug 'benmills/vimux'
 
   " *** filetypes ***
   Plug 'digitaltoad/vim-jade'
@@ -51,6 +51,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'jelera/vim-javascript-syntax'
   Plug 'kchmck/vim-coffee-script'
   Plug 'nono/vim-handlebars'
+  Plug 'moll/vim-node'
+  Plug 'vim-scripts/svg.vim'
 
   " *** colors ***
   Plug 'chriskempson/vim-tomorrow-theme'
@@ -150,6 +152,7 @@ autocmd BufNewFile,BufRead YML set filetype=ruby
 autocmd BufRead,BufNewFile *.ru set filetype-ruby
 
 autocmd BufRead,BufNewFile *jshintrc* set filetype=javascript
+autocmd BufRead,BufNewFile *bowerrc* set filetype=javascript
 autocmd BufRead,BufNewFile Gruntfile set filetype=javascript
 autocmd BufRead,BufNewFile *.js.liquid set filetype=javascript
 
@@ -312,4 +315,12 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:ycm_use_ultisnips_completer = 1
 
 let g:buffergator_suppress_keymaps = 1
-map <Leader>t :call SaveAndRunNearestSpec()<CR>
+map <leader>t :call SaveAndRunNearestSpec()<CR>
+
+nmap <Enter> :call SaveAndVimuxRunCommand("clear; mocha " . bufname("%"))<CR>
+
+"autocmd Filetype php setlocal ts=4 sts=4 sw=4
+"autocmd Filetype css setlocal ts=4 sts=4 sw=4
+"autocmd Filetype scss setlocal ts=4 sts=4 sw=4
+"autocmd Filetype scss setlocal noexpandtab
+"autocmd Filetype css setlocal noexpandtab

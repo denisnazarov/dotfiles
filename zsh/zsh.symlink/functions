@@ -19,6 +19,12 @@ reload-canary() {
 	EOF
 }
 
+update-prezto() {
+	cd ~/.zprezto
+	git pull && git submodule update --init --recursive
+	cd -
+}
+
 # download any youtube or vimeo video to ~/Movies
 download-video() {
 	cd ~/Movies
@@ -65,4 +71,10 @@ add-dropbox-remote() {
 		  echo "added dropbox remote"
 		  git remote -v
 	fi
+}
+
+
+
+whiteboard () {
+	convert $1 -morphology Convolve DoG:15,100,0 -negate -normalize -blur 0x1 -channel RBG -level 60%,91%,0.1 $2
 }

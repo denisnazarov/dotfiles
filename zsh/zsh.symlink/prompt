@@ -1,17 +1,15 @@
 #!/bin/sh
 
-#source $HOME/.zsh/spectrum
+#ZSH_THEME_DIR_COLOR=$FG[044]
+#ZSH_THEME_TEXT_COLOR=$FG[250]
+#ZSH_THEME_RUBY_VERSION_COLOR=$FG[237]
+#ZSH_THEME_STOPPED_JOBS_COLOR=$FG[136]
 
-ZSH_THEME_DIR_COLOR=$FG[044]
-ZSH_THEME_TEXT_COLOR=$FG[250]
-ZSH_THEME_RUBY_VERSION_COLOR=$FG[237]
-ZSH_THEME_STOPPED_JOBS_COLOR=$FG[136]
-
-ZSH_THEME_GIT_PROMPT_PREFIX=''
-ZSH_THEME_GIT_PROMPT_SUFFIX=' '
-ZSH_THEME_GIT_PROMPT_COLOR=$FG[244]
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$FG[009]%} ●"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$FG[002]%} ●"
+#ZSH_THEME_GIT_PROMPT_PREFIX=''
+#ZSH_THEME_GIT_PROMPT_SUFFIX=' '
+#ZSH_THEME_GIT_PROMPT_COLOR=$FG[244]
+#ZSH_THEME_GIT_PROMPT_DIRTY="%{$FG[009]%} ●"
+#ZSH_THEME_GIT_PROMPT_CLEAN="%{$FG[002]%} ●"
 
 function __prompt_stoppedjobs() {
   local num=$(jobs -s | wc -l | sed -e "s/ //g")
@@ -20,14 +18,46 @@ function __prompt_stoppedjobs() {
   fi
 }
 
-__prompt_ruby_verision ()
-{
+__prompt_ruby_verision () {
   if [ -f "$(pwd)/Gemfile" ]; then
     local rbenv_ruby_version=`rbenv version | sed -e 's/ .*//'`
     printf "♦ $rbenv_ruby_version"
   fi
 }
 
-PROMPT='%{$ZSH_THEME_DIR_COLOR%}%c %{$ZSH_THEME_GIT_PROMPT_COLOR%}$(git_prompt_info)%{$ZSH_THEME_TEXT_COLOR%}'
+__prompt_node_verision () {
+  if [ -f "$(pwd)/package.json" ]; then
+    local node_version=$(node -v | cut -c 2-)
+    printf "❁ $node_version"
+  fi
+}
 
-RPROMPT='%{$ZSH_THEME_RUBY_VERSION_COLOR%}$(__prompt_ruby_verision)%{$ZSH_THEME_STOPPED_JOBS_COLOR%}$(__prompt_stoppedjobs)'
+function prompt_moudy_precmd {
+  vcs_info
+}
+
+function prompt_moudy_setup {
+
+  autoload -Uz add-zsh-hook
+  autoload -Uz vcs_info
+
+  add-zsh-hook precmd prompt_moudy_precmd
+
+  zstyle ':vcs_info:*' git
+  zstyle ':vcs_info:*' check-for-changes true
+  zstyle ':vcs_info:*' stagedstr '%F{green} ●%f'
+  zstyle ':vcs_info:*' unstagedstr '%F{yellow} ●%f'
+  zstyle ':vcs_info:*' formats '%F{cyan}%b%c%u%f '
+  zstyle ':vcs_info:*' actionformats "%b%c%u|%F{cyan}%a%f "
+  zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b|%F{cyan}%r%f'
+  zstyle ':vcs_info:git*+set-message:*' hooks git-status
+
+  #PROMPT='%{$ZSH_THEME_DIR_COLOR%}%c %{$ZSH_THEME_GIT_PROMPT_COLOR%}$(git_prompt_info)%{$ZSH_THEME_TEXT_COLOR%}'
+  PROMPT='%F{8}%c/%f ${vcs_info_msg_0_}'
+
+  RPROMPT='$(__prompt_node_verision)$(__prompt_ruby_verision)$(__prompt_stoppedjobs)'
+
+  #RPROMPT='%{$ZSH_THEME_RUBY_VERSION_COLOR%}$(__prompt_ruby_verision)%{$ZSH_THEME_STOPPED_JOBS_COLOR%}$(__prompt_stoppedjobs)'
+}
+
+prompt_moudy_setup "$@"

@@ -19,8 +19,6 @@
   ui = true
 [github]
   user = moudy
-[hub]
-  protocol = https
 [credential]
   helper = osxkeychain
 [help]

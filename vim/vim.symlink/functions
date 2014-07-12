@@ -60,3 +60,14 @@ command! RunAllSpecs call RunAllSpecs()
 function! SaveAndRunNearestSpec()
   silent w | call RunNearestSpec()
 endfunction
+
+function! SaveAndVimuxRunCommand(command)
+  silent w | call VimuxRunCommand(a:command)
+endfunction
+
+fu! Fixspaces()
+  while search('^\t* \{4}') != 0
+    execute ':%s/^\t*\zs \{4}/\t/g'
+  endwhile
+endfu
+command! Fixspaces call Fixspaces()

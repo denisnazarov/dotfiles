@@ -5,6 +5,7 @@ alias m='tmuxinator start'
 alias s='pmset sleepnow'
 alias k='clear'
 alias c='pygmentize -O style=monokai -f console256 -g'
+alias vim='vim -w ~/.vimlog "$@"'
 
 alias ll='ls -lhA'
 
