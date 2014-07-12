@@ -13,15 +13,6 @@ script/link
 
 ```sh
 dot link
-.mongorc.js -> /Users/moudy/.dotfiles/mongo/mongorc.js.symlink
-...
 .vimrc -> /Users/moudy/.dotfiles/vim/vimrc.symink
 ```
 
-`dot install` will recursivly run all shell scripts named `install.sh`
-```sh
-dot install
-~/.dotfiles/mongo/install.sh
-...
-~/.dotfiles/vim/install.sh
-```
