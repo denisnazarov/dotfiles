@@ -22,13 +22,14 @@ call plug#begin('~/.vim/plugged')
   Plug 'ag.vim'
 "  Plug 'rgarver/Kwbd.vim'
   Plug 'danro/rename.vim'
+
   Plug 'w0ng/vim-hybrid'
   Plug 'airblade/vim-gitgutter'
   Plug 'bling/vim-airline'
   Plug 'majutsushi/tagbar'
   Plug 'godlygeek/tabular'
   Plug 'vim-scripts/YankRing.vim'
-" Plug 'sjl/vitality.vim'
+  Plug 'sjl/vitality.vim'
   Plug 'jeetsukumaran/vim-buffergator'
   Plug 'junegunn/goyo.vim'
   Plug 'geekjuice/vim-mocha'
@@ -50,9 +51,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'cakebaker/scss-syntax.vim'
   Plug 'jelera/vim-javascript-syntax'
   Plug 'kchmck/vim-coffee-script'
-  Plug 'nono/vim-handlebars'
   Plug 'moll/vim-node'
   Plug 'vim-scripts/svg.vim'
+  Plug 'mustache/vim-mustache-handlebars'
 
   " *** colors ***
   Plug 'chriskempson/vim-tomorrow-theme'
@@ -118,7 +119,9 @@ set splitright " split to the right, not left
 set splitbelow " split to the bottom, not top
 
 set list!  " show invisibles as per below
+
 set list listchars=tab:>-,trail:.,precedes:<,extends:>
+set showbreak=↪
 
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
@@ -139,8 +142,11 @@ set softtabstop=2
 set shiftwidth=2
 set expandtab
 
-" autosave thanks to https://github.com/sjl/vitality.vim
-" autocmd FocusLost * silent! wall
+" Save on focus lost thanks to https://github.com/sjl/vitality.vim
+au FocusLost * :silent! wall
+
+" Resize splits when the window is resized
+au VimResized * :wincmd =
 
 " *** filetypes ***
 autocmd BufNewFile,BufRead Gemfile set filetype=ruby
@@ -175,7 +181,9 @@ endfun
 
 autocmd BufWritePre * call StripTrailingWhitespace()
 
-autocmd VimResized * wincmd =
+" Use sane regexes.
+nnoremap / /\v
+vnoremap / /\v
 
 " *** scrolling ***
 set scrolloff=8
@@ -211,6 +219,8 @@ map <leader>rr :%s/<c-r>=expand("<cword>")<cr>/<c-r>=expand("<cword>")<cr>/g
 " find current word
 map <leader>f :Ag <c-r>=expand("<cword>")<cr><cr>
 
+map <tab> %
+
 " Bind :Q to :q
 command! Q q
 command! Qall qall
@@ -223,6 +233,15 @@ else
     let &t_SI = "\<Esc>]50;CursorShape=1\x7"
     let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
+
+" Keep search matches in the middle of the window.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Same when jumping around
+nnoremap g; g;zz
+nnoremap g, g,zz
+nnoremap <c-o> <c-o>zz
 
 " relative line numbers in normal mode, normal in insert
 set rnu

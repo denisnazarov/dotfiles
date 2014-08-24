@@ -16,7 +16,7 @@ alias tu='top -o cpu'
 alias tm='top -o vsize'
 
 alias update-vim-plugins='vim +PlugUpdate +qall'
-alias compile-ycm='cd ~/.vim/plugged/YouCompleteMe && git submodule update --init --recursive && ./install.sh --clang-completer'
+alias compile-ycm='cd ~/.vim/plugged/YouCompleteMe && git submodule update --init --recursive && ./install.sh --clang-completer && cd -'
 
 # set wifi on/off
 alias wifi='networksetup -setairportpower en0 on'

@@ -19,7 +19,5 @@
   ui = true
 [github]
   user = moudy
-[credential]
-  helper = osxkeychain
 [help]
   autocorrect = 1
