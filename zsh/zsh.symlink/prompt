@@ -1,5 +1,9 @@
 #!/bin/sh
 
+function __prompt_ssh() {
+  [ "$SSH_CONNECTION" ] && print "☁  "
+}
+
 function __prompt_stoppedjobs() {
   local num=$(jobs -s | wc -l | sed -e "s/ //g")
   if [[ ! "$num" -eq "0" ]]; then
@@ -42,8 +46,8 @@ function prompt_moudy_setup {
   zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b|%F{cyan}%r%f'
   zstyle ':vcs_info:git*+set-message:*' hooks git-status
 
-  PROMPT='%F{8}%c/%f ${vcs_info_msg_0_}'
-  RPROMPT='$(__prompt_node_verision)$(__prompt_ruby_verision)$(__prompt_stoppedjobs)'
+  PROMPT='$(__prompt_ssh)%F{8}%c/%f ${vcs_info_msg_0_}'
+  RPROMPT='$(__prompt_node_verision)$(__prompt_ruby_verision)$(__prompt_stoppedjobs) %F{8}%n@%m'
 }
 
 prompt_moudy_setup "$@"

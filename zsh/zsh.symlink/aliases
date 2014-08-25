@@ -30,11 +30,6 @@ alias dev='npm run dev'
 # List paths in a readable format
 alias paths='echo $PATH | tr ":" "\n"'
 
-# One of @janmoesen’s ProTip™s
-for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
-  alias "$method"="lwp-request -m '$method'"
-done
-
 # MAC manipulators
 alias random-mac='sudo ifconfig en0 ether `openssl rand -hex 6 | sed "s/\(..\)/\1:/g; s/.$//"`'
 alias restore-mac='sudo ifconfig en0 ether $MAC_ADDRESS'
