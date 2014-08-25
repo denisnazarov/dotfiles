@@ -25,6 +25,15 @@ update-prezto() {
 	cd -
 }
 
+update-rbenv() {
+	local cwd=$(pwd)
+	cd ~/.rbenv
+	git pull
+	cd plugins/ruby-build
+	git pull
+	cd "$cwd"
+}
+
 # download any youtube or vimeo video to ~/Movies
 download-video() {
 	cd ~/Movies

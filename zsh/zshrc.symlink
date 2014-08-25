@@ -7,7 +7,7 @@ fi
 
 export EDITOR=vim
 
-source $HOME/.local.zsh
+[ -s "$HOME/.local.zsh" ] && source "$HOME/.local.zsh"
 source $HOME/.zsh/aliases
 source $HOME/.zsh/functions
 source $HOME/.zsh/prompt
@@ -19,26 +19,31 @@ zstyle ':completion:*:default' list-colors $LS_COLORS
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=magenta,fg=white,bold'
 
 # setup Amazon EC2 command-line tools
-if [ -x "$(which ec2-api-tools)" ]; then;
+if [ -x "$(which ec2-api-tools)" ]; then
   export JAVA_HOME="$(/usr/libexec/java_home)"
   export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
 fi
 
-if [[ -s "$HOME/.ec2" ]]; then;
+if [[ -s "$HOME/.ec2" ]]; then
   export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.ec2/pk-*.pem | /usr/bin/head -1)"
   export EC2_CERT="$(/bin/ls "$HOME"/.ec2/cert-*.pem | /usr/bin/head -1)"
 fi
 
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# rbevn
+if [ -d "$HOME/.rbenv" ]; then
+  PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)";
+fi
+
+# Setup nvm
+export NVM_DIR="/Users/moudy/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+# look for homebrew versions first
+type brew &>/dev/null && PATH=/usr/local/bin:$PATH
 
 # add my path
 PATH=$HOME/.bin:$PATH
-
-# look for homebrew versions first
-PATH=/usr/local/bin:$PATH
-
-# rbevn
-PATH=$HOME/.rbenv/bin:$PATH
 
 # make paths unique
 PATH=`paths | awk ' !x[$0]++' | tr '\n' : | sed 's/:$//'`
@@ -49,4 +54,5 @@ DISABLE_AUTO_TITLE=true
 
 # don't correct me
 unsetopt correct_all
+
 

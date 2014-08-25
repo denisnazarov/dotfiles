@@ -29,6 +29,7 @@ function prompt_moudy_setup {
 
   autoload -Uz add-zsh-hook
   autoload -Uz vcs_info
+  setopt promptsubst
 
   add-zsh-hook precmd prompt_moudy_precmd
 
