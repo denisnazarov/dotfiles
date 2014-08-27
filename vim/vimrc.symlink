@@ -15,13 +15,15 @@ call plug#begin('~/.vim/plugged')
   Plug 'mattn/gist-vim'
   Plug 'mattn/webapi-vim'
   Plug 'kien/ctrlp.vim'
-  Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
+  Plug 'Shougo/neocomplete.vim'
   Plug 'regedarek/ZoomWin'
   Plug 'gregsexton/MatchTag'
   Plug 'tristen/vim-sparkup'
   Plug 'ag.vim'
 "  Plug 'rgarver/Kwbd.vim'
   Plug 'danro/rename.vim'
+  Plug 'jiangmiao/auto-pairs'
 
   Plug 'w0ng/vim-hybrid'
   Plug 'airblade/vim-gitgutter'
@@ -281,6 +283,8 @@ endfunction
 " zoom zomm
 map <leader><leader> :ZoomWin<CR>
 
+let g:AutoPairsFlyMode = 1
+
 " ag - faster ack
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
@@ -338,8 +342,54 @@ map <leader>t :call SaveAndRunNearestSpec()<CR>
 
 nmap <Enter> :call SaveAndVimuxRunCommand("clear; mocha " . bufname("%"))<CR>
 
-"autocmd Filetype php setlocal ts=4 sts=4 sw=4
-"autocmd Filetype css setlocal ts=4 sts=4 sw=4
-"autocmd Filetype scss setlocal ts=4 sts=4 sw=4
-"autocmd Filetype scss setlocal noexpandtab
-"autocmd Filetype css setlocal noexpandtab
+" *** Configure neocomplete.vim ***
+
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+
+" Auto-select
+let g:neocomplete#enable_auto_select = 1
+
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+      \ 'default' : '',
+      \ 'vimshell' : $HOME.'/.vimshell_hist',
+      \ 'scheme' : $HOME.'/.gosh_completions'
+      \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-Tab>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
