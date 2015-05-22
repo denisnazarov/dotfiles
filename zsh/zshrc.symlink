@@ -9,49 +9,13 @@ export EDITOR=vim
 
 [ -s "$HOME/.local.zsh" ] && source "$HOME/.local.zsh"
 source $HOME/.zsh/aliases
-source $HOME/.zsh/functions
 source $HOME/.zsh/prompt
-
-# Over-ride prezto settings
-export LSCOLORS='gxfxcxdxbxGxDxabagacad'
-export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
-zstyle ':completion:*:default' list-colors $LS_COLORS
-
-# setup Amazon EC2 command-line tools
-if [ -x "$(which ec2-api-tools)" ]; then
-  export JAVA_HOME="$(/usr/libexec/java_home)"
-  export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
-fi
-
-if [[ -s "$HOME/.ec2" ]]; then
-  export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.ec2/pk-*.pem | /usr/bin/head -1)"
-  export EC2_CERT="$(/bin/ls "$HOME"/.ec2/cert-*.pem | /usr/bin/head -1)"
-fi
-
-# rbevn
-if [ -d "$HOME/.rbenv" ]; then
-  PATH="$HOME/.rbenv/bin:$PATH"
-  eval "$(rbenv init -)";
-fi
-
-if [ -d "$HOME/.pyenv" ]; then
-  PATH="$HOME/.pyenv/bin:$PATH"
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-fi
-
-# Setup nvm
-export NVM_DIR="/Users/moudy/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
-# look for homebrew versions first
-type brew &>/dev/null && PATH=/usr/local/bin:$PATH
 
 # add my path
 PATH=$HOME/.bin:$PATH
-
-# make paths unique
-PATH=`paths | awk ' !x[$0]++' | tr '\n' : | sed 's/:$//'`
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/9.3/bin
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # fixes TMUX window rename bug
 # http://superuser.com/questions/306028/tmux-and-zsh-custom-prompt-bug-with-window-name
@@ -60,4 +24,26 @@ DISABLE_AUTO_TITLE=true
 # don't correct me
 unsetopt correct_all
 
+autoload -Uz promptinit
+promptinit
+prompt minimal
+unsetopt auto_name_dirs
 
+BASE16_SCHEME="ocean"
+BASE16_SHELL="$HOME/.config/base16-shell/base16-$BASE16_SCHEME.dark.sh"
+[[ -s $BASE16_SHELL ]] && . $BASE16_SHELL
+
+# YAPP
+export YAPP_PROJECTS_DIR=~/web/yapp/projects
+source ~/.yapp-private
+
+
+export PATH=$HOME/local/bin:$PATH
+export PATH="$PATH:$HOME/.node/bin"
+export PATH="$PATH:./node_modules/.bin"
+
+export GOPATH=$HOME/go
+export PATH="$PATH:$GOPATH/bin"
+
+# ALGS 4
+export CLASSPATH=$CLASSPATH:~/learning/algorithms/stdlib.jar:~/learning/algorithms/algs4.jar

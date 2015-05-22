@@ -11,13 +11,6 @@ function __prompt_stoppedjobs() {
   fi
 }
 
-__prompt_ruby_verision () {
-  if [ -f "$(pwd)/Gemfile" ]; then
-    local rbenv_ruby_version=`rbenv version | sed -e 's/ .*//'`
-    printf "♦ $rbenv_ruby_version"
-  fi
-}
-
 __prompt_node_verision () {
   if [ -f "$(pwd)/package.json" ]; then
     local node_version=$(node -v | cut -c 2-)
@@ -47,7 +40,6 @@ function prompt_moudy_setup {
   zstyle ':vcs_info:git*+set-message:*' hooks git-status
 
   PROMPT='$(__prompt_ssh)%F{8}%c/%f ${vcs_info_msg_0_}'
-  RPROMPT='$(__prompt_node_verision)$(__prompt_ruby_verision)$(__prompt_stoppedjobs) %F{8}%n@%m'
 }
 
 prompt_moudy_setup "$@"

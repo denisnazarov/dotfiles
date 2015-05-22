@@ -11,41 +11,14 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-abolish'
   Plug 'tpope/vim-endwise'
-  Plug 'tsaleh/vim-matchit'
   Plug 'mattn/gist-vim'
   Plug 'mattn/webapi-vim'
   Plug 'kien/ctrlp.vim'
-" Plug 'Valloric/YouCompleteMe'
-  Plug 'Shougo/neocomplete.vim'
-  Plug 'regedarek/ZoomWin'
-  Plug 'gregsexton/MatchTag'
-  Plug 'tristen/vim-sparkup'
   Plug 'ag.vim'
-"  Plug 'rgarver/Kwbd.vim'
-  Plug 'danro/rename.vim'
-  Plug 'jiangmiao/auto-pairs'
+  Plug 'terryma/vim-multiple-cursors'
+  Plug 'fatih/vim-go'
 
-  Plug 'w0ng/vim-hybrid'
-  Plug 'airblade/vim-gitgutter'
   Plug 'bling/vim-airline'
-  Plug 'majutsushi/tagbar'
-  Plug 'godlygeek/tabular'
-  Plug 'vim-scripts/YankRing.vim'
-  Plug 'sjl/vitality.vim'
-  Plug 'jeetsukumaran/vim-buffergator'
-  Plug 'junegunn/goyo.vim'
-  Plug 'geekjuice/vim-mocha'
-
-  " Open the current Markdown buffer in Marked.app
-  Plug 'itspriddle/vim-marked'
-  Plug 'tomtom/tlib_vim'
-
-  " rizzatti/dash.vim dependency
-  Plug 'rizzatti/funcoo.vim'
-  Plug 'rizzatti/dash.vim'
-
-  Plug 'benmills/vimux'
-
   " *** filetypes ***
   Plug 'digitaltoad/vim-jade'
   Plug 'juvenn/mustache.vim'
@@ -56,13 +29,13 @@ call plug#begin('~/.vim/plugged')
   Plug 'moll/vim-node'
   Plug 'vim-scripts/svg.vim'
   Plug 'mustache/vim-mustache-handlebars'
+  Plug 'groenewege/vim-less'
+  Plug 'Keithbsmiley/swift.vim'
 
   " *** colors ***
-  Plug 'chriskempson/vim-tomorrow-theme'
-  Plug 'w0ng/vim-hybrid'
-  Plug 'guns/xterm-color-table.vim'
-  Plug 'vim-scripts/jellybeans.vim'
-  Plug 'tpope/vim-markdown'
+  Plug 'chriskempson/base16-vim'
+
+  Plug 'mikewest/vimroom'
 call plug#end()
 
 so $HOME/.vim/functions
@@ -72,14 +45,19 @@ so $HOME/.vim/functions
 filetype on
 filetype plugin on
 filetype indent on
-syntax on
+syntax enable
 set laststatus=2
 
 set cursorline
 set numberwidth=1
+set nowrap
 
-" *** dark colors ***
-colorscheme jellybeans
+" *** mouse ***
+set mouse=a
+set ttymouse=xterm2
+
+" *** line numbers ***
+set number
 
 hi Normal ctermbg=234
 hi CursorLine ctermbg=233
@@ -115,14 +93,14 @@ hi Search cterm=NONE ctermfg=0 ctermbg=154
 
 let g:netrw_dirhistmax=0
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip " some stuff to ignore
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/bower_components/*,*/dist/*,*/node_modules/*,*/vendor/*,*/log/*
 
 set splitright " split to the right, not left
 set splitbelow " split to the bottom, not top
 
 set list!  " show invisibles as per below
 
-set list listchars=tab:>-,trail:.,precedes:<,extends:>
+set list listchars=tab:▸\ ,trail:.,precedes:<,extends:>
 set showbreak=↪
 
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -209,24 +187,6 @@ nmap ; :
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e :edit %%
 
-" lead with ,
-let mapleader = ","
-
-" exit to normal mode with 'jj'
-inoremap jj <ESC>
-
-" replace current word
-map <leader>rr :%s/<c-r>=expand("<cword>")<cr>/<c-r>=expand("<cword>")<cr>/g
-
-" find current word
-map <leader>f :Ag <c-r>=expand("<cword>")<cr><cr>
-
-map <tab> %
-
-" Bind :Q to :q
-command! Q q
-command! Qall qall
-
 " use a bar-shaped cursor for insert mode, even through tmux.
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -245,45 +205,8 @@ nnoremap g; g;zz
 nnoremap g, g,zz
 nnoremap <c-o> <c-o>zz
 
-" relative line numbers in normal mode, normal in insert
-set rnu
-autocmd InsertEnter * setl nu
-autocmd InsertLeave * setl rnu
-
 " for CSS
 set iskeyword+=-
-
-" plugin settings
-" airline
-let g:airline_theme='badwolf'
-let g:airline_powerline_fonts=1
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_inactive_collapse=0
-let g:airline#extensions#hunks#enabled = 0
-
-let g:airline_section_a = ''
-let g:airline_section_y = '%3l ↧ %3c ↦'
-let g:airline_section_z = ''
-
-let g:airline_theme_patch_func = 'AirlineThemePatch'
-function! AirlineThemePatch(palette)
-  if g:airline_theme == 'badwolf'
-    for colors in values(a:palette.normal)
-      let colors[1] = 235
-      let colors[3] = 235
-    endfor
-    for colors in values(a:palette.insert)
-      let colors[1] = 235
-      let colors[3] = 235
-    endfor
-  endif
-endfunction
-
-" zoom zomm
-map <leader><leader> :ZoomWin<CR>
-
-let g:AutoPairsFlyMode = 1
 
 " ag - faster ack
 let g:ackprg = 'ag --nogroup --nocolor --column'
@@ -296,6 +219,7 @@ let g:ctrlp_custom_ignore = {
 
 " Nerdtree
 map <leader>n :NERDTreeToggle<CR>
+map <leader>m :NERDTreeFind<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 let NERDTreeShowLineNumbers = 1
@@ -303,93 +227,36 @@ let NERDTreeMinimalUI = 1
 let NERDTreeWinSize=26
 let NERDTreeQuitOnOpen=1
 
-" yankring
-let g:yankring_min_element_length = 2
-let g:yankring_max_history = 1000
-let g:yankring_window_use_bottom = 0
-let g:yankring_history_file = '.yankring_history'
-let g:yankring_replace_n_pkey = ''
-nmap yr :YRShow<CR>
-
-map <leader>b :BuffergatorToggle<CR>
-
-" Goyo
-function! s:goyo_before()
-  silent !tmux set status off
-  set noshowmode
-  set noshowcmd
-  set nonumber
-endfunction
-
-function! s:goyo_after()
-  silent !tmux set status on
-  set showmode
-  set showcmd
-  source ~/.vimrc
-endfunction
-
-let g:goyo_callbacks = [function('s:goyo_before'), function('s:goyo_after')]
-
-let g:UltiSnips = {}
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-
-let g:ycm_use_ultisnips_completer = 1
-
-let g:buffergator_suppress_keymaps = 1
-map <leader>t :call SaveAndRunNearestSpec()<CR>
-
-nmap <Enter> :call SaveAndVimuxRunCommand("clear; mocha " . bufname("%"))<CR>
-
-" *** Configure neocomplete.vim ***
-
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-
-" Auto-select
-let g:neocomplete#enable_auto_select = 1
-
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-      \ 'default' : '',
-      \ 'vimshell' : $HOME.'/.vimshell_hist',
-      \ 'scheme' : $HOME.'/.gosh_completions'
-      \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-Tab>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" *** dark colors ***
+set term=screen-256color
+set t_Co=256
+set background=dark
+let base16colorspace=256        " Access colors present in 256 colorspace
+colorscheme base16-ocean
+set nofoldenable                " disable code folding
 
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
+" airline
+let g:airline_theme='base16'
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
 endif
+let g:airline_symbols.space = "\ua0"
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+let g:go_fmt_command = "goimports"

@@ -13,12 +13,8 @@ bind C-v run "safe-reattach-to-user-namespace pbpaste | tmux load-buffer - && tm
 
 if-shell 'test "$(uname)" = "Darwin"' 'set -g focus-events on'
 
-# re-map prefix
-set -g prefix C-a
-unbind C-b
-
 # ensure that we can send Ctrl-A to other apps
-bind C-a send-prefix
+bind C-b send-prefix
 
 # don't delay
 set -sg  escape-time 0
@@ -29,6 +25,10 @@ bind r source-file ~/.tmux.conf \; display "Reloaded"
 # window spliting
 bind | split-window -h
 bind - split-window -v
+
+bind "\"" split-window -c '#{pane_current_path}'
+bind "\%" split-window -h -c '#{pane_current_path}'
+bind c new-window -c "#{pane_current_path}"
 
 # enter command prompt with same suffix as my vim setting
 bind-key \; command-prompt
@@ -59,12 +59,6 @@ bind p paste-buffer
 setw -g monitor-activity on
 set -g visual-activity on
 
-# pane colors (dark)
-set -g pane-border-fg colour233
-set -g pane-border-bg colour234
-set -g pane-active-border-bg colour234
-set -g pane-active-border-fg colour233
-
 # Command / message line
 set -g message-fg white
 set -g message-bg black
@@ -89,39 +83,31 @@ set -g history-limit 100000
 
 set-option -g status-position top
 
-# dark theme
-set -g status-bg colour235
+# mouse support
+set-option -g mode-mouse on
+set-option -g mouse-resize-pane on
+set-option -g mouse-select-pane on
+set-option -g mouse-select-window on
 
-# dark theme
-set -g message-bg colour235
-set -g message-fg colour123
+# Colours / look
+set -g default-terminal "screen-256color"
+set -g status-interval 30
+set -g status-bg black
+set -g status-left-bg 'default'
+set -g status-right-bg 'default'
+set -g status-fg 'default'
+set -g status-justify 'right'
+set -g status-left-length 50
+set -g status-right-length 0
 
-set -g status-left " ❖ #S "
-set -g status-left-length 200
+set -g pane-active-border-bg black
+set -g pane-border-style bg=default
 
-# dark theme
-set -g status-left-bg colour235
-set -g status-left-fg colour229
+set -g set-titles-string '(#pwd)'
+setw -g automatic-rename on
 
-# unselected window
-setw -g window-status-format "#W "
+setw -g window-status-format '#[fg=cyan,dim]#I#[fg=blue]:#[default]#W#[fg=grey,dim]#F'
+setw -g window-status-current-format '#[bg=default,fg=cyan,bold]#I#[bg=default,fg=cyan]:#[fg=white]#W#[fg=dim]#F'
 
-# dark theme
-setw -g window-status-bg colour235
-setw -g window-status-fg colour244
-
-# activity window
-# dark theme
-setw -g window-status-activity-fg colour235
-setw -g window-status-activity-bg colour244
-
-# current window
-setw -g window-status-current-format "#W#F "
-
-# dark theme
-setw -g window-status-current-bg colour235
-setw -g window-status-current-fg colour123
-
-set -g status-right ''
-
-setw -g automatic-rename off
+set -g status-left "#(whoami)"
+set -g status-right ""

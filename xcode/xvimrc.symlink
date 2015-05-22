@@ -7,7 +7,10 @@ let mapleader = ","
 " exit to normal mode with 'jj'
 imap jj <ESC>
 
-map C-h C-w h
-map C-j C-w j
-map C-k C-w k
-map C-l C-w l
+map <C-h> <C-w>h<CR>`
+map <C-j> <C-w>j<CR>`
+map <C-k> <C-w>k<CR>`
+map <C-l> <C-w>l<CR>`
+
+" search files with ctrlp-p
+map <C-p>  :xccmd openQuickly<CR>
