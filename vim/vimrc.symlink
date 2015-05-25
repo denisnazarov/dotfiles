@@ -260,3 +260,6 @@ let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
 
 let g:go_fmt_command = "goimports"
+
+" Make sure all markdown files have the correct filetype set
+au BufRead,BufNewFile,BufReadPost *.{md,markdown,mdown,mkd,mkdn,txt} set filetype=markdown
