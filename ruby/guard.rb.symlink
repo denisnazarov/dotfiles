@@ -1,0 +1,11 @@
+# vi: ft=ruby
+notification :tmux, display_message: true,
+                    color_location: 'status-right-bg',
+                    success: 'colour235',
+                    failed: 'colour235',
+                    pending: 'colour235',
+                    default: 'colour235',
+                    success_message_color: 'colour40',
+                    failed_message_color: 'colour160',
+                    pending_message_color: 'colour148',
+                    default_message_color: 'colour43'

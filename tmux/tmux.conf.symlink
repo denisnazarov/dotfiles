@@ -1,0 +1,115 @@
+set-option -g default-shell /bin/zsh
+
+# correct colors
+set -g default-terminal "screen-256color"
+
+# start window and pane index at 1
+set -g base-index 1
+setw -g pane-base-index 1
+
+set-option -g default-command "safe-reattach-to-user-namespace -l $SHELL"
+bind C-c run "tmux show-buffer | safe-reattach-to-user-namespace pbcopy"
+bind C-v run "safe-reattach-to-user-namespace pbpaste | tmux load-buffer - && tmux paste-buffer"
+
+if-shell 'test "$(uname)" = "Darwin"' 'set -g focus-events on'
+
+# ensure that we can send Ctrl-A to other apps
+bind C-b send-prefix
+
+# don't delay
+set -sg  escape-time 0
+
+# reload config
+bind r source-file ~/.tmux.conf \; display "Reloaded"
+
+# window spliting
+bind | split-window -h
+bind - split-window -v
+
+bind "\"" split-window -c '#{pane_current_path}'
+bind "\%" split-window -h -c '#{pane_current_path}'
+bind c new-window -c "#{pane_current_path}"
+
+# enter command prompt with same suffix as my vim setting
+bind-key \; command-prompt
+
+# Smart pane switching with awareness of vim splits
+# https://gist.github.com/mislav/5189704
+bind -n C-k run-shell 'tmux-vim-select-pane -U'
+bind -n C-j run-shell 'tmux-vim-select-pane -D'
+bind -n C-h run-shell 'tmux-vim-select-pane -L'
+bind -n C-l run-shell 'tmux-vim-select-pane -R'
+bind -n "C-\\" run-shell 'tmux-vim-select-pane -l'
+
+# Bring back clear screen under tmux prefix
+bind C-l send-keys 'C-l'
+
+# resize panes with vim movements
+bind -r H   resize-pane -L 10
+bind -r J   resize-pane -D 10
+bind -r K   resize-pane -U 10
+bind -r L   resize-pane -R 10
+
+# vim style copy & paste
+bind -t vi-copy 'v' begin-selection
+bind -t vi-copy 'y' copy-selection
+bind p paste-buffer
+
+# enable activity alerts
+setw -g monitor-activity on
+set -g visual-activity on
+
+# Command / message line
+set -g message-fg white
+set -g message-bg black
+set -g message-attr bright
+
+# Update the status bar every sixty seconds
+set -g status-interval 60
+
+# enable vi keys.
+setw -g mode-keys vi
+
+bind q     kill-pane
+bind s     display-panes
+bind C-s   choose-session
+bind space last-window
+
+# clear the current pane AND clear the pane's history
+bind C-k send-keys 'C-l'\; clear-history
+
+set -sg repeat-time 200
+set -g history-limit 100000
+
+set-option -g status-position top
+
+# mouse support
+set-option -g mode-mouse on
+set-option -g mouse-resize-pane on
+set-option -g mouse-select-pane on
+set-option -g mouse-select-window on
+
+# Colours / look
+set -g default-terminal "screen-256color"
+set -g status-interval 30
+set -g status-bg black
+set -g status-left-bg 'default'
+set -g status-right-bg 'default'
+set -g status-fg 'default'
+set -g status-justify 'right'
+set -g status-left-length 50
+set -g status-right-length 0
+
+set -g pane-active-border-bg black
+set -g pane-border-style bg=default
+
+set -g set-titles-string '(#pwd)'
+setw -g automatic-rename on
+
+setw -g window-status-format '#[fg=cyan,dim]#I#[fg=blue]:#[default]#W#[fg=grey,dim]#F'
+setw -g window-status-current-format '#[bg=default,fg=cyan,bold]#I#[bg=default,fg=cyan]:#[fg=white]#W#[fg=dim]#F'
+
+set -g status-left "#(whoami)"
+set -g status-right ""
+
+setw -g automatic-rename off

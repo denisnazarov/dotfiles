@@ -1,0 +1,45 @@
+#!/bin/sh
+
+function __prompt_ssh() {
+  [ "$SSH_CONNECTION" ] && print "☁  "
+}
+
+function __prompt_stoppedjobs() {
+  local num=$(jobs -s | wc -l | sed -e "s/ //g")
+  if [[ ! "$num" -eq "0" ]]; then
+    printf " ★ $num"
+  fi
+}
+
+__prompt_node_verision () {
+  if [ -f "$(pwd)/package.json" ]; then
+    local node_version=$(node -v | cut -c 2-)
+    printf "❁ $node_version"
+  fi
+}
+
+function prompt_moudy_precmd {
+  vcs_info
+}
+
+function prompt_moudy_setup {
+
+  autoload -Uz add-zsh-hook
+  autoload -Uz vcs_info
+  setopt promptsubst
+
+  add-zsh-hook precmd prompt_moudy_precmd
+
+  zstyle ':vcs_info:*' git
+  zstyle ':vcs_info:*' check-for-changes true
+  zstyle ':vcs_info:*' stagedstr '%F{green} ●%f'
+  zstyle ':vcs_info:*' unstagedstr '%F{yellow} ●%f'
+  zstyle ':vcs_info:*' formats '%F{cyan}%b%c%u%f '
+  zstyle ':vcs_info:*' actionformats "%b%c%u|%F{cyan}%a%f "
+  zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b|%F{cyan}%r%f'
+  zstyle ':vcs_info:git*+set-message:*' hooks git-status
+
+  PROMPT='$(__prompt_ssh)%F{8}%c/%f ${vcs_info_msg_0_}'
+}
+
+prompt_moudy_setup "$@"

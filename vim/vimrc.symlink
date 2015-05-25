@@ -1,4 +1,262 @@
-syntax on
+" use vim settings, not vi settings
+set nocompatible
+filetype off
 
-" Wrap gitcommit file types at the appropriate length
-filetype indent plugin on
+call plug#begin('~/.vim/plugged')
+  Plug 'christoomey/vim-tmux-navigator'
+  Plug 'scrooloose/nerdtree'
+  Plug 'scrooloose/syntastic'
+  Plug 'scrooloose/nerdcommenter'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-abolish'
+  Plug 'tpope/vim-endwise'
+  Plug 'mattn/gist-vim'
+  Plug 'mattn/webapi-vim'
+  Plug 'kien/ctrlp.vim'
+  Plug 'ag.vim'
+  Plug 'terryma/vim-multiple-cursors'
+  Plug 'fatih/vim-go'
+
+  Plug 'bling/vim-airline'
+  " *** filetypes ***
+  Plug 'digitaltoad/vim-jade'
+  Plug 'juvenn/mustache.vim'
+  Plug 'slim-template/vim-slim'
+  Plug 'cakebaker/scss-syntax.vim'
+  Plug 'jelera/vim-javascript-syntax'
+  Plug 'kchmck/vim-coffee-script'
+  Plug 'moll/vim-node'
+  Plug 'vim-scripts/svg.vim'
+  Plug 'mustache/vim-mustache-handlebars'
+  Plug 'groenewege/vim-less'
+  Plug 'Keithbsmiley/swift.vim'
+
+  " *** colors ***
+  Plug 'chriskempson/base16-vim'
+
+  Plug 'mikewest/vimroom'
+call plug#end()
+
+so $HOME/.vim/functions
+
+
+" *** setup ***
+filetype on
+filetype plugin on
+filetype indent on
+syntax enable
+set laststatus=2
+
+set cursorline
+set numberwidth=1
+set nowrap
+
+" *** mouse ***
+set mouse=a
+set ttymouse=xterm2
+
+" *** line numbers ***
+set number
+
+hi Normal ctermbg=234
+hi CursorLine ctermbg=233
+
+hi TabLine      ctermfg=244 ctermbg=234 cterm=NONE
+hi TabLineFill  ctermfg=123  ctermbg=234 cterm=NONE
+hi TabLineSel   ctermfg=123  ctermbg=234 cterm=NONE
+
+hi CursorLineNr term=bold ctermfg=250 ctermbg=234
+hi NonText ctermfg=234
+hi LineNr ctermbg=234
+hi NonText ctermbg=234
+hi SignColumn ctermbg=234
+hi Directory ctermfg=27
+hi VertSplit ctermbg=235
+hi VertSplit ctermfg=235
+
+set encoding=utf-8 " Use UTF-8
+set backspace=indent,eol,start " allow backspace in insert mode
+set history=1000 " store lots of :cmdline history
+set showcmd " show incomplete cmds down the bottom
+set showmode " show current mode down the bottom
+set visualbell " no sounds
+set autoread " reload files changed outside vim
+set hidden " allow background files
+
+set noswapfile " turn off swap files
+set nobackup
+set nowb
+
+set hlsearch " highlight all search matches
+hi Search cterm=NONE ctermfg=0 ctermbg=154
+
+let g:netrw_dirhistmax=0
+
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/bower_components/*,*/dist/*,*/node_modules/*,*/vendor/*,*/log/*
+
+set splitright " split to the right, not left
+set splitbelow " split to the bottom, not top
+
+set list!  " show invisibles as per below
+
+set list listchars=tab:▸\ ,trail:.,precedes:<,extends:>
+set showbreak=↪
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
+set showmatch " show matching () {} etc
+
+set foldmethod=indent " fold based on indent
+set foldlevelstart=20 " prevent folding by default
+set noshowmode " hide the default mode text (e.g. -- INSERT -- below the statusline) "
+
+" *** indentation & whitespace ***
+set autoindent
+set smartindent
+set smarttab
+
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+
+" Save on focus lost thanks to https://github.com/sjl/vitality.vim
+au FocusLost * :silent! wall
+
+" Resize splits when the window is resized
+au VimResized * :wincmd =
+
+" *** filetypes ***
+autocmd BufNewFile,BufRead Gemfile set filetype=ruby
+autocmd BufNewFile,BufRead Guardfile set filetype=ruby
+autocmd BufNewFile,BufRead VagranFile set filetype=ruby
+autocmd BufNewFile,BufRead Rakefile set filetype=ruby
+autocmd BufNewFile,BufRead Podfile set filetype=ruby
+autocmd BufNewFile,BufRead YML set filetype=ruby
+autocmd BufRead,BufNewFile *.ru set filetype-ruby
+
+autocmd BufRead,BufNewFile *jshintrc* set filetype=javascript
+autocmd BufRead,BufNewFile *bowerrc* set filetype=javascript
+autocmd BufRead,BufNewFile Gruntfile set filetype=javascript
+autocmd BufRead,BufNewFile *.js.liquid set filetype=javascript
+
+autocmd BufRead,BufNewFile *.{slimbars} set filetype=slim
+autocmd BufRead,BufNewFile *.{ejs} set filetype=html
+
+autocmd BufNewFile,BufRead *.zsh-theme set filetype=zsh
+
+autocmd BufRead,BufNewFile *gitconfig* set filetype=config
+autocmd BufRead,BufNewFile *gitignore* set filetype=config
+
+" auto-strip trailing whitespace on write
+fun! StripTrailingWhitespace()
+    " Don't strip on these filetypes
+    if &ft =~ 'markdown\|perl'
+        return
+    endif
+    %s/\s\+$//e
+endfun
+
+autocmd BufWritePre * call StripTrailingWhitespace()
+
+" Use sane regexes.
+nnoremap / /\v
+vnoremap / /\v
+
+" *** scrolling ***
+set scrolloff=8
+set sidescrolloff=15
+set sidescroll=1
+
+" Prevent Vim from clobbering the scrollback buffer. See
+" http://www.shallowsky.com/linux/noaltscreen.html
+set t_ti= t_te=
+
+
+" *** mappings ***
+
+" ctrl -space to go back to previous buffer
+map <C-@> :b#<CR>
+
+" faster
+nmap ; :
+
+" edit file relative to current file
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>e :edit %%
+
+" use a bar-shaped cursor for insert mode, even through tmux.
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+" Keep search matches in the middle of the window.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Same when jumping around
+nnoremap g; g;zz
+nnoremap g, g,zz
+nnoremap <c-o> <c-o>zz
+
+" for CSS
+set iskeyword+=-
+
+" ag - faster ack
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
+" ingore these when searching for files
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(jpg|png|gif|psd)$',
+  \ }
+
+" Nerdtree
+map <leader>n :NERDTreeToggle<CR>
+map <leader>m :NERDTreeFind<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+let NERDTreeShowLineNumbers = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeWinSize=26
+let NERDTreeQuitOnOpen=1
+
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-Tab>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+" *** dark colors ***
+set term=screen-256color
+set t_Co=256
+set background=dark
+let base16colorspace=256        " Access colors present in 256 colorspace
+colorscheme base16-ocean
+set nofoldenable                " disable code folding
+
+" airline
+let g:airline_theme='base16'
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.space = "\ua0"
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+let g:go_fmt_command = "goimports"

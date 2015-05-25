@@ -1,0 +1,20 @@
+" faster
+nmap ; :
+
+" lead with ,
+let mapleader = ","
+
+" exit to normal mode with 'jj'
+imap jj <ESC>
+
+" move between windows
+map <C-h> <C-w>h<CR>
+map <C-j> <C-w>j<CR>
+map <C-k> <C-w>k<CR>
+map <C-l> <C-w>l<CR>
+
+" search files with ctrlp-p
+map <C-p>  :xccmd openQuickly<CR>
+
+" search the string cursor points to. Very Usefull.
+map ,f viw:xccmd findSelectedTextInWorkspace<CR>
