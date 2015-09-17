@@ -24,13 +24,16 @@ call plug#begin('~/.vim/plugged')
   Plug 'juvenn/mustache.vim'
   Plug 'slim-template/vim-slim'
   Plug 'cakebaker/scss-syntax.vim'
-  Plug 'jelera/vim-javascript-syntax'
+  Plug 'pangloss/vim-javascript'
   Plug 'kchmck/vim-coffee-script'
   Plug 'moll/vim-node'
   Plug 'vim-scripts/svg.vim'
   Plug 'mustache/vim-mustache-handlebars'
   Plug 'groenewege/vim-less'
   Plug 'Keithbsmiley/swift.vim'
+  Plug 'facebook/vim-flow'
+  Plug 'mxw/vim-jsx'
+  Plug 'maksimr/vim-jsbeautify'
 
   " *** colors ***
   Plug 'chriskempson/base16-vim'
@@ -263,3 +266,6 @@ let g:go_fmt_command = "goimports"
 
 " Make sure all markdown files have the correct filetype set
 au BufRead,BufNewFile,BufReadPost *.{md,markdown,mdown,mkd,mkdn,txt} set filetype=markdown
+
+let g:syntastic_javascript_checkers = ['eslint']
+autocmd FileType javascript vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
